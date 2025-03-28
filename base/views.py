@@ -90,16 +90,16 @@ def list_arts(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def art_detail(request, art_uuid):
-    art = get_object_or_404(Art, uuid=art_uuid)
+def art_detail(request, art_id):  # Changed art_uuid to art_id
+    art = get_object_or_404(Art, id=art_id)  # Changed art_uuid to id
     serializer = ArtSerializer(art, many=False)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def place_bid(request, art_uuid):
-    art = get_object_or_404(Art, uuid=art_uuid)
+def place_bid(request, art_id):  # Changed art_uuid to art_id
+    art = get_object_or_404(Art, id=art_id)  # Changed art_uuid to id
     user = request.user
     bid_amount = request.data.get('bid_amount')
 
@@ -116,8 +116,8 @@ def place_bid(request, art_uuid):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_bids(request, art_uuid):
-    art = get_object_or_404(Art, uuid=art_uuid)
+def get_bids(request, art_id):  # Changed art_uuid to art_id
+    art = get_object_or_404(Art, id=art_id)  # Changed art_uuid to id
     bids = art.bids.all().order_by('-timestamp')
     serializer = BidSerializer(bids, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
